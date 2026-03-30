@@ -33,11 +33,13 @@ export default async function EnrollmentPage({
     "use server";
 
     const admin = createAdminSupabaseClient();
+    const parentEmailValue = formData.get("parent_email");
     const { error } = await admin.from("enrollment_submissions").insert({
       centre_id: formRecord.centre_id,
       branch_id: formRecord.branch_id,
       student_name: String(formData.get("student_name")),
       parent_name: String(formData.get("parent_name")),
+      parent_email: typeof parentEmailValue === "string" && parentEmailValue.trim().length > 0 ? parentEmailValue : null,
       parent_phone: String(formData.get("parent_phone")),
       grade: String(formData.get("grade")),
       preferred_batch: String(formData.get("preferred_batch")),
@@ -61,6 +63,7 @@ export default async function EnrollmentPage({
             <Field label="Student name" id="student_name" />
             <Field label="Parent name" id="parent_name" />
             <Field label="Parent phone" id="parent_phone" />
+            <Field label="Parent email" id="parent_email" type="email" required={false} />
             <Field label="Grade" id="grade" />
             <Field label="Preferred batch" id="preferred_batch" />
             <div className="grid gap-2">
@@ -79,11 +82,21 @@ export default async function EnrollmentPage({
   );
 }
 
-function Field({ label, id }: { label: string; id: string }) {
+function Field({
+  label,
+  id,
+  type = "text",
+  required = true,
+}: {
+  label: string;
+  id: string;
+  type?: string;
+  required?: boolean;
+}) {
   return (
     <div className="grid gap-2">
       <Label htmlFor={id}>{label}</Label>
-      <Input id={id} name={id} required />
+      <Input id={id} name={id} type={type} required={required} />
     </div>
   );
 }

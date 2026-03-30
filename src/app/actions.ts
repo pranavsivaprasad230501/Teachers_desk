@@ -16,6 +16,7 @@ import {
   getStudentsForBatch,
 } from "@/lib/data";
 import {
+  buildAbsenceEmailSubject,
   buildAbsenceMessage,
   buildBroadcastMessage,
   queueNotification,
@@ -111,11 +112,19 @@ const createStudentSchema = z.object({
   branchId: optionalUuid,
   name: z.string().min(2),
   parentName: optionalString,
+  parentEmail: optionalString.pipe(z.email().optional()),
   parentPhone: z.string().min(10),
   batchId: optionalUuid,
   feeAmount: z.coerce.number().min(1),
   feeDueDate: z.coerce.number().min(1).max(28),
   rollNumber: optionalString,
+});
+
+const updateStudentContactsSchema = z.object({
+  studentId: z.string().uuid(),
+  parentName: optionalString,
+  parentEmail: optionalString.pipe(z.email().optional()),
+  parentPhone: z.string().min(10),
 });
 
 const inviteStaffSchema = z.object({
@@ -312,6 +321,7 @@ export async function createStudentAction(formData: FormData) {
     branchId: formData.get("branch_id"),
     name: formData.get("name"),
     parentName: formData.get("parent_name"),
+    parentEmail: formData.get("parent_email"),
     parentPhone: formData.get("parent_phone"),
     batchId: formData.get("batch_id"),
     feeAmount: formData.get("fee_amount"),
@@ -326,6 +336,7 @@ export async function createStudentAction(formData: FormData) {
     batch_id: values.batchId || null,
     name: values.name,
     parent_name: values.parentName || null,
+    parent_email: values.parentEmail || null,
     parent_phone: values.parentPhone,
     fee_amount: values.feeAmount,
     fee_due_date: values.feeDueDate,
@@ -339,6 +350,38 @@ export async function createStudentAction(formData: FormData) {
 
   revalidatePath("/dashboard/students");
   revalidatePath("/dashboard/fees");
+}
+
+export async function updateStudentContactsAction(formData: FormData) {
+  const user = await requireUser();
+  const appContext = await getAppContextForUser({ userId: user.id, phone: user.phone ?? null });
+  if (!appContext.centre || appContext.role === "teacher") {
+    throw new Error("Only owners and admins can update student contacts.");
+  }
+
+  const values = updateStudentContactsSchema.parse({
+    studentId: formData.get("student_id"),
+    parentName: formData.get("parent_name"),
+    parentEmail: formData.get("parent_email"),
+    parentPhone: formData.get("parent_phone"),
+  });
+
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase
+    .from("students")
+    .update({
+      parent_name: values.parentName || null,
+      parent_email: values.parentEmail || null,
+      parent_phone: values.parentPhone,
+    })
+    .eq("id", values.studentId)
+    .eq("centre_id", appContext.centre.id);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath("/dashboard/students");
 }
 
 export async function moveStudentBatchAction(formData: FormData) {
@@ -376,6 +419,24 @@ export async function saveAttendanceAction(formData: FormData) {
   const students = await getStudentsForBatch(batchId);
   const supabase = await createServerSupabaseClient();
   const adminSupabase = createAdminSupabaseClient();
+  const studentIds = students.map((student) => student.id);
+  const existingStatusByStudentId = new Map<string, "present" | "absent">();
+
+  if (studentIds.length > 0) {
+    const { data: existingAttendance, error: existingAttendanceError } = await supabase
+      .from("attendance")
+      .select("student_id, status")
+      .in("student_id", studentIds)
+      .eq("date", date);
+
+    if (existingAttendanceError) {
+      throw new Error(existingAttendanceError.message);
+    }
+
+    for (const record of existingAttendance ?? []) {
+      existingStatusByStudentId.set(record.student_id, record.status);
+    }
+  }
 
   const rows: AttendanceUpsertRow[] = students
     .map((student) => {
@@ -404,7 +465,7 @@ export async function saveAttendanceAction(formData: FormData) {
   }
 
   for (const row of rows) {
-    if (row.status !== "absent") {
+    if (row.status !== "absent" || existingStatusByStudentId.get(row.student_id) === "absent") {
       continue;
     }
 
@@ -431,6 +492,24 @@ export async function saveAttendanceAction(formData: FormData) {
       messageBody: buildAbsenceMessage(student.name, appContext.centre.name, date),
       payload: { student_id: student.id, date },
     });
+
+    if (student.parent_email) {
+      await queueNotification({
+        centreId: appContext.centre.id,
+        branchId: student.branch_id,
+        studentId: student.id,
+        batchId,
+        category: "absence_alert",
+        channel: "email",
+        recipientEmail: student.parent_email,
+        messageBody: buildAbsenceMessage(student.name, appContext.centre.name, date),
+        payload: {
+          student_id: student.id,
+          date,
+          subject: buildAbsenceEmailSubject(student.name, appContext.centre.name, date),
+        },
+      });
+    }
 
     if ((recentAbsences ?? []).length >= 3) {
       await adminSupabase.from("risk_alerts").insert({
@@ -767,6 +846,7 @@ export async function processEnrollmentSubmissionAction(formData: FormData) {
       branch_id: typedSubmission.branch_id,
       name: typedSubmission.student_name,
       parent_name: typedSubmission.parent_name,
+      parent_email: typedSubmission.parent_email,
       parent_phone: typedSubmission.parent_phone,
       fee_amount: 0,
       fee_due_date: 5,

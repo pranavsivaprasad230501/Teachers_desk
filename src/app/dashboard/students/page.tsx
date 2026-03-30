@@ -5,6 +5,7 @@ import {
   createStudentAction,
   moveStudentBatchAction,
   processEnrollmentSubmissionAction,
+  updateStudentContactsAction,
 } from "@/app/actions";
 import { AccessDenied } from "@/components/dashboard/access-denied";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
@@ -65,6 +66,11 @@ export default async function StudentsPage() {
                     <p className="text-sm text-muted-foreground">
                       {student.parent_name ?? "Parent"} · {student.parent_phone}
                     </p>
+                    {student.parent_email ? (
+                      <p className="text-sm text-muted-foreground">{student.parent_email}</p>
+                    ) : (
+                      <p className="text-sm text-amber-700">Parent email missing. Absence emails will be skipped.</p>
+                    )}
                     <p className="mt-1 text-sm text-muted-foreground">
                       {student.branches?.name ?? "No branch"} · {student.batches?.name ?? "Unassigned"}
                     </p>
@@ -81,6 +87,32 @@ export default async function StudentsPage() {
                   >
                     Open parent portal
                   </Link>
+                  <form action={updateStudentContactsAction} className="flex flex-wrap items-center gap-2">
+                    <input type="hidden" name="student_id" value={student.id} />
+                    <Input
+                      name="parent_name"
+                      defaultValue={student.parent_name ?? ""}
+                      placeholder="Parent name"
+                      className="h-8 w-40"
+                    />
+                    <Input
+                      name="parent_phone"
+                      defaultValue={student.parent_phone}
+                      placeholder="Parent phone"
+                      className="h-8 w-36"
+                      required
+                    />
+                    <Input
+                      name="parent_email"
+                      defaultValue={student.parent_email ?? ""}
+                      placeholder="parent@example.com"
+                      type="email"
+                      className="h-8 w-52"
+                    />
+                    <SubmitButton type="submit" size="sm" pendingLabel="Saving...">
+                      Save Contact
+                    </SubmitButton>
+                  </form>
                   <form action={moveStudentBatchAction} className="flex items-center gap-2">
                     <input type="hidden" name="student_id" value={student.id} />
                     <select
@@ -150,6 +182,7 @@ export default async function StudentsPage() {
               <Field label="Student name" id="name" placeholder="Aarav Patel" />
               <Field label="Parent name" id="parent_name" placeholder="Meera Patel" required={false} />
               <Field label="Parent phone" id="parent_phone" placeholder="9876543210" />
+              <Field label="Parent email" id="parent_email" placeholder="meera@example.com" type="email" required={false} />
               <Field label="Monthly fee" id="fee_amount" placeholder="1500" type="number" />
               <Field label="Fee due date" id="fee_due_date" placeholder="5" type="number" />
               <Field label="Roll number" id="roll_number" placeholder="101" required={false} />

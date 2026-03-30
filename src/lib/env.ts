@@ -38,6 +38,8 @@ const serverEnvSchema = publicEnvSchema.extend({
   APP_URL: optionalUrl,
   WHATSAPP_WEBHOOK_URL: optionalUrl,
   WHATSAPP_WEBHOOK_TOKEN: optionalNonEmptyString,
+  RESEND_API_KEY: optionalNonEmptyString,
+  EMAIL_FROM_ADDRESS: optionalNonEmptyString,
   CRON_SECRET: optionalNonEmptyString,
 });
 
@@ -57,6 +59,8 @@ export const serverEnv = serverEnvSchema.parse({
   APP_URL: process.env.APP_URL,
   WHATSAPP_WEBHOOK_URL: process.env.WHATSAPP_WEBHOOK_URL,
   WHATSAPP_WEBHOOK_TOKEN: process.env.WHATSAPP_WEBHOOK_TOKEN,
+  RESEND_API_KEY: process.env.RESEND_API_KEY,
+  EMAIL_FROM_ADDRESS: process.env.EMAIL_FROM_ADDRESS,
   CRON_SECRET: process.env.CRON_SECRET,
 });
 

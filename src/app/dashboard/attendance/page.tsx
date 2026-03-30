@@ -44,7 +44,7 @@ export default async function AttendancePage({ searchParams }: AttendancePagePro
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Attendance</h2>
         <p className="mt-1 text-muted-foreground">
-          Batch-wise marking for teachers and owners. Absence alerts are queued automatically.
+          Batch-wise marking for teachers and owners. Absence alerts are queued automatically on WhatsApp and email when parent contact details are available.
         </p>
       </div>
 

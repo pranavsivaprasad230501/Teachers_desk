@@ -65,7 +65,7 @@ export type TestScoreWithStudent = TestScoreRecord & {
 };
 
 export type RiskAlertWithStudent = RiskAlertRecord & {
-  students?: (Pick<StudentRecord, "name" | "parent_phone"> & {
+  students?: (Pick<StudentRecord, "name" | "parent_phone" | "parent_email"> & {
     batches?: Pick<BatchRecord, "name"> | null;
   }) | null;
 };

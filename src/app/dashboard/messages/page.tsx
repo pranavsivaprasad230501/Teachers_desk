@@ -36,9 +36,13 @@ export default async function MessagesPage() {
           {messages.map((message) => (
             <div key={message.id} className="rounded-lg border p-4 text-sm">
               <p className="font-medium text-slate-900">{message.category}</p>
-              <p className="text-muted-foreground">{message.recipient_phone}</p>
+              <p className="text-muted-foreground">
+                {message.channel === "email" ? message.recipient_email ?? "No email recipient" : message.recipient_phone ?? "No phone recipient"}
+              </p>
               <p className="mt-1 text-slate-700">{message.message_body}</p>
-              <p className="mt-1 text-xs uppercase text-muted-foreground">{message.status}</p>
+              <p className="mt-1 text-xs uppercase text-muted-foreground">
+                {message.channel} · {message.status}
+              </p>
             </div>
           ))}
           <div className="pt-2">

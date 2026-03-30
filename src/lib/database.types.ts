@@ -151,6 +151,7 @@ export type Database = {
           linked_student_id: string | null;
           notes: string | null;
           parent_name: string | null;
+          parent_email: string | null;
           parent_phone: string;
           preferred_batch: string | null;
           status: "new" | "accepted" | "rejected";
@@ -165,6 +166,7 @@ export type Database = {
           linked_student_id?: string | null;
           notes?: string | null;
           parent_name?: string | null;
+          parent_email?: string | null;
           parent_phone: string;
           preferred_batch?: string | null;
           status?: "new" | "accepted" | "rejected";
@@ -232,7 +234,8 @@ export type Database = {
           message_body: string;
           payload: Json;
           provider_message_id: string | null;
-          recipient_phone: string;
+          recipient_email: string | null;
+          recipient_phone: string | null;
           scheduled_for: string;
           sent_at: string | null;
           status: "queued" | "sent" | "failed";
@@ -249,7 +252,8 @@ export type Database = {
           message_body: string;
           payload?: Json;
           provider_message_id?: string | null;
-          recipient_phone: string;
+          recipient_email?: string | null;
+          recipient_phone?: string | null;
           scheduled_for?: string;
           sent_at?: string | null;
           status?: "queued" | "sent" | "failed";
@@ -356,6 +360,7 @@ export type Database = {
           name: string;
           notes: string | null;
           parent_name: string | null;
+          parent_email: string | null;
           parent_phone: string;
           portal_token: string | null;
           roll_number: string | null;
@@ -374,6 +379,7 @@ export type Database = {
           name: string;
           notes?: string | null;
           parent_name?: string | null;
+          parent_email?: string | null;
           parent_phone: string;
           portal_token?: string | null;
           roll_number?: string | null;
