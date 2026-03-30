@@ -1,0 +1,2 @@
+-- Optional local seed file.
+-- Keep this intentionally minimal for production parity.

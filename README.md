@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Centre+
 
-## Getting Started
+Centre+ is a subscription-backed tuition centre management app built with Next.js, Supabase, and Stripe.
 
-First, run the development server:
+### Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Username/password login through Supabase Auth
+- Centre onboarding and 14-day trial creation
+- Batch, student, attendance, and monthly fee management
+- Parent portal links for each student
+- Stripe Checkout, Billing Portal, and webhook-based subscription syncing
+- Branches, staff roles, timetable, tests, risk alerts, and notification outbox
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Copy `.env.example` to `.env.local` and fill in your Supabase and Stripe values.
+2. Install the Supabase CLI.
+3. For local development, run `npm run supabase:start`.
+4. For hosted Supabase, link your project with `npx supabase link`.
+5. Push schema with `npm run supabase:db:push`.
+6. Generate fresh TypeScript bindings with `npm run supabase:types` if the schema changes.
+3. Use Node.js `20.9.0` or newer.
+4. Install dependencies with `npm install`.
+5. Start the app with `npm run dev`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Supabase Production Notes
 
-## Learn More
+- The authoritative schema lives in:
+  - `supabase/schema.sql`
+  - `supabase/migrations/20260324_000001_init.sql`
+- Local Supabase project config is in `supabase/config.toml`.
+- A trigger auto-creates `public.user_profiles` records for new `auth.users`.
+- Centre creation in the app bootstraps:
+  - first centre
+  - main branch
+  - owner membership
+  - trial subscription
+  - first enrollment form
 
-To learn more about Next.js, take a look at the following resources:
+### Background Jobs
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+These routes should be called by a scheduler in production:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Notification dispatch:
+  - `GET /api/jobs/notifications?secret=YOUR_CRON_SECRET`
+- Risk alerts and fee reminders:
+  - `GET /api/jobs/risk-alerts?secret=YOUR_CRON_SECRET`
 
-## Deploy on Vercel
+Recommended schedule:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- notifications: every 1-5 minutes
+- risk-alerts: once daily in the morning
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Stripe
+
+- Create two recurring Stripe prices and map them to:
+  - `STRIPE_PRICE_STARTER_MONTHLY`
+  - `STRIPE_PRICE_STARTER_YEARLY`
+- Point your Stripe webhook to `/api/stripe/webhook`
+- Subscribe to:
+  - `checkout.session.completed`
+  - `customer.subscription.created`
+  - `customer.subscription.updated`
+  - `customer.subscription.deleted`
+
+### WhatsApp / Notification Provider
+
+- The app queues outbound parent messages in `public.notification_messages`.
+- Configure:
+  - `WHATSAPP_WEBHOOK_URL`
+  - `WHATSAPP_WEBHOOK_TOKEN`
+- The dispatcher will POST queued messages to that webhook in a provider-agnostic JSON shape.
+
+### Development Notes
+
+- Next.js 16 requires Node 20.9+.
+- The repo uses `proxy.ts` for Supabase session cookie refresh.
+- Dashboard access is trial or subscription gated.
+- Teacher accounts are limited to attendance, timetable, and tests.
