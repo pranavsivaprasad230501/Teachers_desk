@@ -640,6 +640,7 @@ export async function getEnrollmentSubmissionsForCentre(
 export async function getDashboardStats(appContext: AppContext) {
   const centre = await getCentreOrThrow(appContext);
   const supabase = await createServerSupabaseClient();
+  const adminSupabase = createAdminSupabaseClient();
   const month = getMonthKey();
   await ensureFeesForMonth(centre.id, month);
   const { data: centreStudents, error: centreStudentsError } = await supabase
@@ -656,11 +657,19 @@ export async function getDashboardStats(appContext: AppContext) {
     await Promise.all([
       supabase.from("students").select("id", { count: "exact", head: true }).eq("centre_id", centre.id),
       supabase.from("batches").select("id", { count: "exact", head: true }).eq("centre_id", centre.id),
-      supabase.from("fees").select("status, amount_due, amount_paid").eq("month", month),
+      adminSupabase
+        .from("fees")
+        .select("status, amount_due, amount_paid, students!inner(centre_id)")
+        .eq("month", month)
+        .eq("students.centre_id", centre.id),
       studentIds.length > 0
-        ? supabase.from("attendance").select("status").in("student_id", studentIds)
+        ? adminSupabase.from("attendance").select("status").in("student_id", studentIds)
         : Promise.resolve({ data: [], error: null }),
-      supabase.from("risk_alerts").select("id", { count: "exact", head: true }).eq("centre_id", centre.id).eq("status", "open"),
+      adminSupabase
+        .from("risk_alerts")
+        .select("id", { count: "exact", head: true })
+        .eq("centre_id", centre.id)
+        .eq("status", "open"),
     ]);
 
   if (studentsResponse.error || batchesResponse.error || feesResponse.error || attendanceResponse.error || alertsResponse.error) {

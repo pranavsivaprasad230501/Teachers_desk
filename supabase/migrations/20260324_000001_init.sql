@@ -72,7 +72,8 @@ begin
 
     return coalesce(has_access, false);
 end;
-$$ language plpgsql stable;
+$$ language plpgsql stable security definer
+set search_path = public, auth;
 
 create or replace function public.is_batch_teacher(batch_uuid uuid)
 returns boolean as $$
@@ -91,7 +92,8 @@ begin
 
     return coalesce(is_teacher, false);
 end;
-$$ language plpgsql stable;
+$$ language plpgsql stable security definer
+set search_path = public, auth;
 
 create table if not exists public.user_profiles (
     user_id uuid primary key references auth.users on delete cascade,

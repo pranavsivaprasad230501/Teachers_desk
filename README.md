@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## Centre+
 
 Centre+ is a subscription-backed tuition centre management app built with Next.js, Supabase, and Stripe.
@@ -77,3 +78,6 @@ Recommended schedule:
 - The repo uses `proxy.ts` for Supabase session cookie refresh.
 - Dashboard access is trial or subscription gated.
 - Teacher accounts are limited to attendance, timetable, and tests.
+=======
+# Teachers_desk
+>>>>>>> 692c8d12c1c7fe6e72cc3c6fc2b3c82ce7842f11

@@ -1,108 +1,181 @@
 import Link from 'next/link';
-import { BookOpen, CheckCircle, Smartphone } from 'lucide-react';
+import { ArrowRight, BadgeIndianRupee, BookOpen, Building2, MessagesSquare, ShieldCheck, Sparkles } from 'lucide-react';
+
+const highlights = [
+  {
+    title: 'Attendance in minutes',
+    description: 'Mark a full batch quickly, keep records clean, and spot absences before they become parent complaints.',
+    icon: BookOpen,
+  },
+  {
+    title: 'Fee follow-up that feels organised',
+    description: 'Track monthly dues, payment status, and reminders without juggling registers, spreadsheets, and WhatsApp.',
+    icon: BadgeIndianRupee,
+  },
+  {
+    title: 'Built for family-run growth',
+    description: 'Perfect for centres expanding from one branch to many while keeping owners, teachers, and parents aligned.',
+    icon: Building2,
+  },
+];
+
+const trustPoints = [
+  'From single-room tuition setups to premium academy chains',
+  'Designed for fast mobile-first use during real class hours',
+  'Parent communication and operations in one place',
+];
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="absolute inset-x-0 top-0 z-50">
-        <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-          <div className="flex lg:flex-1 items-center">
-            <div className="relative w-10 h-10 mr-4 bg-sky-600 rounded-xl flex items-center justify-center shadow-lg">
-              <BookOpen className="h-6 w-6 text-white" />
-            </div>
-            <span className="text-2xl font-bold tracking-tight text-slate-900">
-              Centre<span className="text-sky-600">+</span>
-            </span>
-          </div>
-          <div className="flex flex-1 justify-end items-center gap-x-4">
-            <Link href="/login" className="text-sm font-semibold leading-6 text-gray-900 hidden sm:block">
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
-            <Link href="/dashboard" className="inline-flex items-center justify-center font-medium transition-colors bg-sky-600 hover:bg-sky-500 rounded-full px-6 py-2 text-white text-sm">
-              Go to Dashboard
-            </Link>
-          </div>
-        </nav>
-      </header>
+    <main className="heritage-shell rangoli-pattern min-h-screen overflow-hidden">
+      <section className="relative px-4 pb-16 pt-6 sm:px-6 lg:px-10">
+        <div className="absolute inset-x-0 top-0 h-[34rem] bg-[radial-gradient(circle_at_top,rgba(174,83,27,0.2),transparent_48%)]" />
+        <div className="absolute left-[-8rem] top-28 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(14,116,118,0.18),transparent_68%)] blur-2xl" />
+        <div className="absolute right-[-5rem] top-16 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(217,154,61,0.24),transparent_62%)] blur-2xl" />
 
-      {/* Hero section */}
-      <div className="relative isolate px-6 pt-14 lg:px-8 bg-white border-b">
-        <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-          <div className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#0ea5e9] to-[#8b5cf6] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]" style={{ clipPath: 'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)' }}></div>
-        </div>
-        
-        <div className="mx-auto max-w-4xl py-24 sm:py-32 lg:py-40 text-center">
-          <div className="mb-8 flex justify-center">
-            <div className="relative rounded-full px-4 py-1.5 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20 shadow-sm bg-white/50 backdrop-blur-md">
-              Built for real centre operations, billing, and parent visibility.
+        <header className="relative z-10 mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/40 bg-white/65 px-4 py-3 shadow-lg shadow-amber-900/5 backdrop-blur-xl sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#b45309,#ea580c,#0f766e)] text-white shadow-lg shadow-orange-900/20">
+              <BookOpen className="h-5 w-5" />
+            </div>
+            <div>
+              <p className="font-heading text-3xl leading-none text-slate-900">
+                Centre<span className="text-orange-700">+</span>
+              </p>
+              <p className="text-xs uppercase tracking-[0.28em] text-amber-800/70">Tuition Management</p>
             </div>
           </div>
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-6xl">
-            Run your tuition centre smoothly with <span className="text-sky-600">Zero Effort</span>
-          </h1>
-          <p className="mt-6 text-lg tracking-tight leading-8 text-gray-600 max-w-2xl mx-auto">
-            Automate attendance, fee tracking, and parent communication via WhatsApp. The complete OS for coaching centres. Say goodbye to notebooks.
-          </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
-            <Link href="/login" className="inline-flex items-center justify-center transition-colors bg-sky-600 hover:bg-sky-500 rounded-full px-8 py-4 text-lg font-medium shadow-lg shadow-sky-500/30 text-white">
-              Get Started Free
+
+          <nav className="flex items-center gap-3">
+            <Link href="/login" className="hidden text-sm font-semibold text-slate-700 transition hover:text-orange-800 sm:inline-flex">
+              Log in
             </Link>
-            <Link href="/dashboard/settings" className="text-base font-semibold leading-6 text-gray-900 flex items-center gap-2">
-              <Smartphone className="w-5 h-5 text-gray-400" /> View Pricing
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,#a34217,#d97706)] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-orange-900/20 transition hover:scale-[1.01] hover:shadow-xl"
+            >
+              Start Free
+              <ArrowRight className="h-4 w-4" />
             </Link>
+          </nav>
+        </header>
+
+        <div className="relative z-10 mx-auto mt-10 grid max-w-7xl gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 rounded-full border border-orange-200/80 bg-white/70 px-4 py-2 text-sm text-orange-900 shadow-sm backdrop-blur">
+              <Sparkles className="h-4 w-4 text-orange-700" />
+              Crafted for Indian coaching centres, tuition classes, and academies
+            </div>
+
+            <h1 className="mt-6 text-5xl leading-[0.95] text-slate-900 sm:text-6xl lg:text-7xl">
+              A modern desk for the way
+              <span className="mx-2 text-orange-700">India teaches.</span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-700 sm:text-xl">
+              Centre+ brings attendance, fee tracking, branch operations, and parent updates into one polished workflow that feels premium, practical, and ready for the Indian classroom.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                href="/login"
+                className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-7 py-3.5 text-base font-semibold text-white shadow-xl shadow-slate-900/15 transition hover:-translate-y-0.5"
+              >
+                Create Your Centre
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 rounded-full border border-amber-300/70 bg-white/70 px-7 py-3.5 text-base font-semibold text-slate-800 backdrop-blur transition hover:border-orange-400 hover:text-orange-800"
+              >
+                Explore Dashboard
+              </Link>
+            </div>
+
+            <div className="mt-10 grid gap-3 sm:grid-cols-3">
+              {trustPoints.map((point) => (
+                <div key={point} className="rounded-[1.6rem] border border-white/60 bg-white/65 px-4 py-4 text-sm leading-6 text-slate-700 shadow-lg shadow-amber-900/5 backdrop-blur">
+                  {point}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative">
+            <div className="ornate-border hero-glow rounded-[2rem] bg-[linear-gradient(160deg,rgba(126,34,10,0.98),rgba(151,59,25,0.96)_35%,rgba(15,118,110,0.9)_100%)] p-6 text-white sm:p-8">
+              <div className="absolute right-8 top-8 flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-white/10 text-amber-100">
+                <ShieldCheck className="h-7 w-7" />
+              </div>
+
+              <p className="text-sm uppercase tracking-[0.35em] text-orange-100/80">Owner View</p>
+              <h2 className="mt-4 text-4xl leading-none text-white sm:text-5xl">
+                Built with warmth, discipline, and detail.
+              </h2>
+              <p className="mt-4 max-w-md text-sm leading-7 text-orange-50/85 sm:text-base">
+                Inspired by festive richness, school discipline, and the polished confidence Indian parents expect from a serious institute.
+              </p>
+
+              <div className="mt-8 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-[1.6rem] border border-white/15 bg-white/10 p-4 backdrop-blur">
+                  <p className="text-xs uppercase tracking-[0.3em] text-orange-100/75">Monthly collection</p>
+                  <p className="mt-2 text-3xl font-semibold text-white">₹2.48L</p>
+                  <p className="mt-2 text-sm text-orange-50/80">Clear visibility on paid, pending, and overdue fees.</p>
+                </div>
+                <div className="rounded-[1.6rem] border border-white/15 bg-white/10 p-4 backdrop-blur">
+                  <p className="text-xs uppercase tracking-[0.3em] text-orange-100/75">Parent updates</p>
+                  <p className="mt-2 text-3xl font-semibold text-white">24/7</p>
+                  <p className="mt-2 text-sm text-orange-50/80">Share records without constant follow-up calls.</p>
+                </div>
+              </div>
+
+              <div className="mt-6 rounded-[1.8rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.18),rgba(255,255,255,0.08))] p-5 backdrop-blur">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/15">
+                    <MessagesSquare className="h-5 w-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-lg font-semibold text-white">A premium feel for a premium institute</p>
+                    <p className="mt-2 text-sm leading-7 text-orange-50/85">
+                      The design language mixes deep saffron, sandstone neutrals, and peacock teal so the product feels proudly Indian while still looking current and polished.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Features highlight */}
-      <div className="py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-base font-semibold leading-7 text-sky-600">Faster Operations</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Everything you need, nothing you don&apos;t
+      <section className="px-4 pb-20 sm:px-6 lg:px-10">
+        <div className="mx-auto max-w-7xl rounded-[2rem] border border-white/50 bg-white/70 p-6 shadow-[0_22px_80px_rgba(126,70,24,0.08)] backdrop-blur sm:p-8 lg:p-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div className="max-w-2xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.32em] text-orange-700">Why it works</p>
+              <h2 className="mt-3 text-4xl text-slate-900 sm:text-5xl">
+                Familiar enough for staff, beautiful enough for parents.
+              </h2>
+            </div>
+            <p className="max-w-xl text-sm leading-7 text-slate-600 sm:text-base">
+              Every screen is meant to feel respectful, aspirational, and efficient, like a well-run Indian institute that takes both teaching and presentation seriously.
             </p>
           </div>
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-none">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-sky-600/10">
-                    <CheckCircle className="h-6 w-6 text-sky-600" aria-hidden="true" />
-                  </div>
-                  1-Click Attendance
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                  <p className="flex-auto">Mark attendance for an entire batch from one screen and maintain a date-wise record for every student.</p>
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-violet-600/10">
-                    <CheckCircle className="h-6 w-6 text-violet-600" aria-hidden="true" />
-                  </div>
-                  Automated Fee Reminders
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                  <p className="flex-auto">Track dues, mark payments, and manage your centre on a paid subscription with Stripe billing.</p>
-                </dd>
-              </div>
-              <div className="flex flex-col">
-                <dt className="flex items-center gap-x-3 text-base font-semibold leading-7 text-gray-900">
-                  <div className="h-10 w-10 flex items-center justify-center rounded-lg bg-emerald-600/10">
-                    <CheckCircle className="h-6 w-6 text-emerald-600" aria-hidden="true" />
-                  </div>
-                  Parent Magic Link
-                </dt>
-                <dd className="mt-4 flex flex-auto flex-col text-base leading-7 text-gray-600">
-                  <p className="flex-auto">Parents get a unique read-only portal link to see attendance and fee status without logging in.</p>
-                </dd>
-              </div>
-            </dl>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {highlights.map(({ title, description, icon: Icon }) => (
+              <article
+                key={title}
+                className="group rounded-[1.75rem] border border-amber-100 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(250,238,220,0.92))] p-6 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-900/10"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,rgba(180,83,9,0.14),rgba(13,148,136,0.12))] text-orange-800">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-3xl text-slate-900">{title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
+              </article>
+            ))}
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
