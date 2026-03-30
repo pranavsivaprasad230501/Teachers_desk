@@ -494,11 +494,12 @@ export async function ensureFeesForMonth(centreId: string, month: string) {
 
 export async function getFeesForMonth(centreId: string, month: string): Promise<FeeWithStudent[]> {
   await ensureFeesForMonth(centreId, month);
-  const supabase = await createServerSupabaseClient();
+  const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("fees")
-    .select("*, students(name, fee_due_date, branches(name), batches(name))")
+    .select("*, students!inner(name, fee_due_date, centre_id, branches(name), batches(name))")
     .eq("month", month)
+    .eq("students.centre_id", centreId)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -571,7 +572,7 @@ export async function getTestScores(testId: string): Promise<TestScoreWithStuden
 export async function getRiskAlertsForCentre(
   centreId: string
 ): Promise<RiskAlertWithStudent[]> {
-  const supabase = await createServerSupabaseClient();
+  const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("risk_alerts")
     .select("*, students(name, parent_phone, batches(name))")
@@ -588,7 +589,7 @@ export async function getRiskAlertsForCentre(
 export async function getNotificationMessagesForCentre(
   centreId: string
 ): Promise<NotificationMessageWithRelations[]> {
-  const supabase = await createServerSupabaseClient();
+  const supabase = createAdminSupabaseClient();
   const { data, error } = await supabase
     .from("notification_messages")
     .select("*, students(name), branches(name), batches(name)")
