@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 ## Centre+
 
-Centre+ is a subscription-backed tuition centre management app built with Next.js, Supabase, and Stripe.
+Centre+ is a subscription-backed tuition class management app built with Next.js, Supabase, and Stripe.
 
 ### Features
 
@@ -16,13 +15,13 @@ Centre+ is a subscription-backed tuition centre management app built with Next.j
 
 1. Copy `.env.example` to `.env.local` and fill in your Supabase and Stripe values.
 2. Install the Supabase CLI.
-3. For local development, run `npm run supabase:start`.
-4. For hosted Supabase, link your project with `npx supabase link`.
-5. Push schema with `npm run supabase:db:push`.
-6. Generate fresh TypeScript bindings with `npm run supabase:types` if the schema changes.
 3. Use Node.js `20.9.0` or newer.
 4. Install dependencies with `npm install`.
-5. Start the app with `npm run dev`.
+5. For local development, run `npm run supabase:start`.
+6. For hosted Supabase, link your project with `npx supabase link`.
+7. Push schema with `npm run supabase:db:push`.
+8. Generate fresh TypeScript bindings with `npm run supabase:types` if the schema changes.
+9. Start the app with `npm run dev`.
 
 ### Supabase Production Notes
 
@@ -78,6 +77,3 @@ Recommended schedule:
 - The repo uses `proxy.ts` for Supabase session cookie refresh.
 - Dashboard access is trial or subscription gated.
 - Teacher accounts are limited to attendance, timetable, and tests.
-=======
-# Teachers_desk
->>>>>>> 692c8d12c1c7fe6e72cc3c6fc2b3c82ce7842f11

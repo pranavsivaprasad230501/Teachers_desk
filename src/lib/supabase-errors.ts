@@ -9,3 +9,11 @@ export function isMissingSchemaError(error: unknown) {
     error.message.includes('relation "public.')
   );
 }
+
+export function isMissingColumnInSchemaCache(error: unknown, columnName: string) {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+
+  return error.message.includes(`Could not find the '${columnName}' column`) && error.message.includes("schema cache");
+}

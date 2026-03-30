@@ -46,6 +46,9 @@ export default async function MessagesPage() {
             </div>
           ))}
           <div className="pt-2">
+            <Link href="/api/jobs/risk-alerts?run=1" className="mr-4 text-sm font-medium text-sky-700 hover:underline">
+              Queue scheduled reminders
+            </Link>
             <Link href="/api/jobs/notifications?run=1" className="text-sm font-medium text-sky-700 hover:underline">
               Trigger dispatch job
             </Link>

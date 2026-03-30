@@ -1,3 +1,5 @@
+-- Renamed to a unique migration version so Supabase does not collide with
+-- other 20260330_* filenames when recording schema_migrations versions.
 alter table public.students
     add column if not exists parent_email text;
 

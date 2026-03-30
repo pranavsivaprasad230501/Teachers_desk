@@ -13,6 +13,7 @@ import type {
   EnrollmentSubmissionWithBranch,
   FeeRecord,
   FeeWithStudent,
+  HolidayWithBranch,
   NotificationMessageWithRelations,
   RiskAlertWithStudent,
   StaffMembershipRecord,
@@ -531,6 +532,22 @@ export async function getTimetableForContext(
   }
 
   return (data ?? []) as TimetableEntryWithBatch[];
+}
+
+export async function getHolidaysForCentre(centreId: string): Promise<HolidayWithBranch[]> {
+  const supabase = await createServerSupabaseClient();
+  const { data, error } = await supabase
+    .from("holidays")
+    .select("*, branches(name)")
+    .eq("centre_id", centreId)
+    .order("holiday_date", { ascending: true })
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return (data ?? []) as HolidayWithBranch[];
 }
 
 export async function getTestsForContext(appContext: AppContext): Promise<TestWithBatch[]> {

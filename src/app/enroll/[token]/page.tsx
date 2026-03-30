@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { isMissingColumnInSchemaCache } from "@/lib/supabase-errors";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import type { EnrollmentFormWithBranch } from "@/lib/types";
 
@@ -34,7 +35,7 @@ export default async function EnrollmentPage({
 
     const admin = createAdminSupabaseClient();
     const parentEmailValue = formData.get("parent_email");
-    const { error } = await admin.from("enrollment_submissions").insert({
+    const payload = {
       centre_id: formRecord.centre_id,
       branch_id: formRecord.branch_id,
       student_name: String(formData.get("student_name")),
@@ -44,7 +45,15 @@ export default async function EnrollmentPage({
       grade: String(formData.get("grade")),
       preferred_batch: String(formData.get("preferred_batch")),
       notes: String(formData.get("notes")),
-    });
+    };
+
+    let { error } = await admin.from("enrollment_submissions").insert(payload);
+
+    if (error && isMissingColumnInSchemaCache(new Error(error.message), "parent_email")) {
+      const { parent_email, ...fallbackPayload } = payload;
+      void parent_email;
+      ({ error } = await admin.from("enrollment_submissions").insert(fallbackPayload));
+    }
 
     if (error) {
       throw new Error(error.message);

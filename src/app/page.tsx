@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 const heroHighlights = [
-  "Trusted by coaching centres, tuition classes, and academies",
+  "Trusted by small, medium, and large tuition classes",
   "Admission, fees, communication, and attendance in one workspace",
   "Built for owners, teachers, parents, and students",
 ];
@@ -76,19 +76,19 @@ const featureSections = [
 
 const faqs = [
   {
-    question: "What is a coaching class ERP?",
+    question: "What is tuition class management software?",
     answer:
-      "It is software that helps coaching institutes manage admissions, attendance, fees, communication, examinations, and day-to-day administration from one system.",
+      "It is software that helps tuition classes manage admissions, attendance, fees, communication, examinations, and day-to-day administration from one system.",
   },
   {
-    question: "Is it suitable for competitive exam institutes?",
+    question: "Is it suitable for small and growing tuition classes?",
     answer:
-      "Yes. Centres preparing students for board exams, entrance tests, and skill programs can use it to organise operations and keep students informed.",
+      "Yes. Small single-location tuition classes and larger multi-branch setups can both use it to stay organised and keep parents and students informed.",
   },
   {
-    question: "Can the software be customised for multiple branches?",
+    question: "Can the software work for multiple tuition branches?",
     answer:
-      "Yes. The product is built for growing institutes that need separate branches, shared oversight, and cleaner reporting across locations.",
+      "Yes. The product is built for growing tuition businesses that need separate branches, shared oversight, and cleaner reporting across locations.",
   },
 ];
 
@@ -139,11 +139,11 @@ export default function Home() {
           <div className="relative z-10 max-w-3xl">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-700">
               <BadgeCheck className="h-4 w-4" />
-              Coaching institute ERP software
+              Tuition class management software
             </div>
 
             <h1 className="mt-6 max-w-4xl font-sans text-4xl font-extrabold leading-tight tracking-[-0.04em] text-slate-950 sm:text-5xl lg:text-6xl">
-              Institute management software built for coaching centres that want to look organised and grow faster.
+              Tuition class management software built for classes that want to look organised and grow faster.
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
@@ -216,9 +216,9 @@ export default function Home() {
           <div className="relative z-10">
             <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_28px_60px_rgba(15,23,42,0.08)] sm:p-7">
               <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">Sign up for a free trial</p>
-              <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-slate-950">See how your institute can run smoother.</h2>
+              <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-slate-950">See how your tuition class can run smoother.</h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">
-                Start with the same categories coaching institutes care about most and move into your dashboard in a few clicks.
+                Start with the same categories tuition classes care about most and move into your dashboard in a few clicks.
               </p>
 
               <form className="mt-6 space-y-4">
@@ -234,7 +234,7 @@ export default function Home() {
                   <span className="mb-2 block text-sm font-semibold text-slate-700">Institution name</span>
                   <input
                     type="text"
-                    placeholder="Centre or academy name"
+                    placeholder="Tuition class name"
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white"
                   />
                 </label>
@@ -242,7 +242,7 @@ export default function Home() {
                   <span className="mb-2 block text-sm font-semibold text-slate-700">Email</span>
                   <input
                     type="email"
-                    placeholder="name@institute.com"
+                    placeholder="name@tuitionclass.com"
                     className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-sky-400 focus:bg-white"
                   />
                 </label>
@@ -284,7 +284,7 @@ export default function Home() {
       <section id="why-centre-plus" className="bg-white py-18 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-700">Best online coaching class ERP software</p>
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-700">Best tuition class management software</p>
             <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
               A complete platform for admissions, academics, communication, and collection.
             </h2>
@@ -314,9 +314,9 @@ export default function Home() {
       <section id="features" className="bg-slate-50 py-18 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
-            <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-700">Features of coaching institute management software</p>
+            <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-700">Features of tuition class management software</p>
             <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
-              The key workflows coaching institutes ask about first.
+              The key workflows tuition classes ask about first.
             </h2>
           </div>
 
@@ -359,7 +359,7 @@ export default function Home() {
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-700">FAQs</p>
             <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-slate-950 sm:text-5xl">
-              Common questions from institute owners.
+              Common questions from tuition class owners.
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
               The reference page leans heavily on educational SEO structure, so this section keeps that same commercial flow while staying visually cleaner.
@@ -388,9 +388,9 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(13,94,183,0.24),rgba(15,23,42,0.92))] p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-200">Centre+ for coaching institutes</p>
+              <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-200">Centre+ for tuition classes</p>
               <h2 className="mt-3 max-w-2xl font-sans text-3xl font-extrabold tracking-tight sm:text-5xl">
-                Present your institute like a modern brand and run it like a disciplined operation.
+                Present your tuition class like a modern brand and run it like a disciplined operation.
               </h2>
               <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
                 Start with the landing page redesign now, then we can carry the same style into the rest of your marketing site if you want.

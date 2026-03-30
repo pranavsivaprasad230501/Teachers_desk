@@ -155,6 +155,53 @@ export function buildFeeReminderMessage(studentName: string, amount: number, due
   return `${centreName}: ${studentName}'s fee of Rs ${amount} is due on day ${dueDate} of this month.`;
 }
 
+export function buildFeeReminderEmailSubject(studentName: string, centreName: string, dueDate: number) {
+  return `${centreName}: Fee reminder for ${studentName} due on day ${dueDate}`;
+}
+
 export function buildBroadcastMessage(title: string, message: string, centreName: string) {
   return `${centreName} - ${title}: ${message}`;
+}
+
+export function buildTestReminderMessage(
+  studentName: string,
+  centreName: string,
+  testTitle: string,
+  batchName: string,
+  testDate: string
+) {
+  return `${centreName}: ${studentName} has "${testTitle}" for ${batchName} on ${testDate}. Please be prepared and on time.`;
+}
+
+export function buildTestReminderEmailSubject(centreName: string, testTitle: string, testDate: string) {
+  return `${centreName}: Test reminder for ${testTitle} on ${testDate}`;
+}
+
+export function buildClassReminderMessage(
+  studentName: string,
+  centreName: string,
+  batchName: string,
+  topic: string,
+  startTime: string,
+  endTime: string
+) {
+  return `${centreName}: ${studentName} has ${batchName} class today from ${startTime} to ${endTime}. Topic: ${topic}.`;
+}
+
+export function buildClassReminderEmailSubject(centreName: string, batchName: string, startTime: string) {
+  return `${centreName}: Today's ${batchName} class at ${startTime}`;
+}
+
+export function buildHolidayMessage(
+  centreName: string,
+  holidayTitle: string,
+  holidayDate: string,
+  branchName?: string | null
+) {
+  const scope = branchName ? ` for ${branchName}` : "";
+  return `${centreName}: Holiday notice${scope}. ${holidayTitle} is scheduled on ${holidayDate}. Classes will remain closed for the affected students.`;
+}
+
+export function buildHolidayEmailSubject(centreName: string, holidayTitle: string, holidayDate: string) {
+  return `${centreName}: Holiday notice for ${holidayTitle} on ${holidayDate}`;
 }

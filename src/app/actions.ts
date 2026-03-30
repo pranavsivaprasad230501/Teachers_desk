@@ -21,13 +21,13 @@ import {
   buildBroadcastMessage,
   queueNotification,
 } from "@/lib/notifications";
+import { isMissingColumnInSchemaCache } from "@/lib/supabase-errors";
 import { createAdminSupabaseClient } from "@/lib/supabase/admin";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import type {
   BranchRecord,
   CentreRecord,
   EnrollmentSubmissionRecord,
-  StudentRecord,
   TestScoreRecord,
 } from "@/lib/types";
 
@@ -120,6 +120,80 @@ const createStudentSchema = z.object({
   rollNumber: optionalString,
 });
 
+async function insertStudentWithParentEmailFallback(
+  payload: {
+    centre_id: string;
+    branch_id: string | null;
+    batch_id?: string | null;
+    name: string;
+    parent_name: string | null;
+    parent_email: string | null;
+    parent_phone: string;
+    fee_amount: number;
+    fee_due_date: number;
+    roll_number?: string | null;
+    portal_token: string;
+  },
+  select = false
+) {
+  const supabase = await createServerSupabaseClient();
+
+  if (select) {
+    const result = await supabase.from("students").insert(payload).select("id").single();
+
+    if (result.error && isMissingColumnInSchemaCache(new Error(result.error.message), "parent_email")) {
+      const { parent_email, ...fallbackPayload } = payload;
+      void parent_email;
+      return supabase.from("students").insert(fallbackPayload).select("id").single();
+    }
+
+    return result;
+  }
+
+  const result = await supabase.from("students").insert(payload);
+
+  if (result.error && isMissingColumnInSchemaCache(new Error(result.error.message), "parent_email")) {
+    const { parent_email, ...fallbackPayload } = payload;
+    void parent_email;
+    return supabase.from("students").insert(fallbackPayload);
+  }
+
+  return result;
+}
+
+async function updateStudentContactsWithParentEmailFallback(payload: {
+  studentId: string;
+  centreId: string;
+  parentName: string | null;
+  parentEmail: string | null;
+  parentPhone: string;
+}) {
+  const supabase = await createServerSupabaseClient();
+
+  const result = await supabase
+    .from("students")
+    .update({
+      parent_name: payload.parentName,
+      parent_email: payload.parentEmail,
+      parent_phone: payload.parentPhone,
+    })
+    .eq("id", payload.studentId)
+    .eq("centre_id", payload.centreId);
+
+  if (result.error && isMissingColumnInSchemaCache(new Error(result.error.message), "parent_email")) {
+    return supabase
+      .from("students")
+      .update({
+        parent_name: payload.parentName,
+        parent_phone: payload.parentPhone,
+      })
+      .eq("id", payload.studentId)
+      .eq("centre_id", payload.centreId);
+  }
+
+  return result;
+}
+
 const updateStudentContactsSchema = z.object({
   studentId: z.string().uuid(),
   parentName: optionalString,
@@ -141,6 +215,13 @@ const timetableSchema = z.object({
   endTime: z.string().min(1),
   topic: optionalString,
   room: optionalString,
+});
+
+const holidaySchema = z.object({
+  branchId: optionalUuid,
+  holidayDate: z.string().date(),
+  title: z.string().min(2),
+  notes: optionalString,
 });
 
 const createTestSchema = z.object({
@@ -329,8 +410,7 @@ export async function createStudentAction(formData: FormData) {
     rollNumber: formData.get("roll_number"),
   });
 
-  const supabase = await createServerSupabaseClient();
-  const { error } = await supabase.from("students").insert({
+  const { error } = await insertStudentWithParentEmailFallback({
     centre_id: appContext.centre.id,
     branch_id: values.branchId || defaultBranch.id,
     batch_id: values.batchId || null,
@@ -366,16 +446,13 @@ export async function updateStudentContactsAction(formData: FormData) {
     parentPhone: formData.get("parent_phone"),
   });
 
-  const supabase = await createServerSupabaseClient();
-  const { error } = await supabase
-    .from("students")
-    .update({
-      parent_name: values.parentName || null,
-      parent_email: values.parentEmail || null,
-      parent_phone: values.parentPhone,
-    })
-    .eq("id", values.studentId)
-    .eq("centre_id", appContext.centre.id);
+  const { error } = await updateStudentContactsWithParentEmailFallback({
+    studentId: values.studentId,
+    centreId: appContext.centre.id,
+    parentName: values.parentName || null,
+    parentEmail: values.parentEmail || null,
+    parentPhone: values.parentPhone,
+  });
 
   if (error) {
     throw new Error(error.message);
@@ -661,6 +738,36 @@ export async function createTimetableEntryAction(formData: FormData) {
   revalidatePath("/dashboard/timetable");
 }
 
+export async function createHolidayAction(formData: FormData) {
+  const user = await requireUser();
+  const appContext = await getAppContextForUser({ userId: user.id, phone: user.phone ?? null });
+  if (!appContext.centre || appContext.role === "teacher") {
+    throw new Error("Only owners and admins can manage holidays.");
+  }
+
+  const values = holidaySchema.parse({
+    branchId: formData.get("branch_id"),
+    holidayDate: formData.get("holiday_date"),
+    title: formData.get("title"),
+    notes: formData.get("notes"),
+  });
+
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.from("holidays").insert({
+    centre_id: appContext.centre.id,
+    branch_id: values.branchId || null,
+    holiday_date: values.holidayDate,
+    title: values.title,
+    notes: values.notes || null,
+  });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  revalidatePath("/dashboard/timetable");
+}
+
 export async function createTestAction(formData: FormData) {
   const user = await requireUser();
   const appContext = await getAppContextForUser({ userId: user.id, phone: user.phone ?? null });
@@ -839,9 +946,8 @@ export async function processEnrollmentSubmissionAction(formData: FormData) {
   }
   const typedSubmission = submission as EnrollmentSubmissionRecord;
 
-  const { data: student, error: studentError } = await supabase
-    .from("students")
-    .insert({
+  const { data: student, error: studentError } = await insertStudentWithParentEmailFallback(
+    {
       centre_id: appContext.centre.id,
       branch_id: typedSubmission.branch_id,
       name: typedSubmission.student_name,
@@ -851,19 +957,22 @@ export async function processEnrollmentSubmissionAction(formData: FormData) {
       fee_amount: 0,
       fee_due_date: 5,
       portal_token: randomUUID(),
-    })
-    .select("id")
-    .single();
+    },
+    true
+  );
 
   if (studentError) {
     throw new Error(studentError.message);
+  }
+  if (!student) {
+    throw new Error("Student could not be created.");
   }
 
   await supabase
     .from("enrollment_submissions")
     .update({
       status: "accepted",
-      linked_student_id: (student as Pick<StudentRecord, "id">).id,
+      linked_student_id: student.id,
     })
     .eq("id", submissionId);
 

@@ -31,6 +31,7 @@ export type RiskAlertRecord = TableRow<"risk_alerts">;
 export type NotificationMessageRecord = TableRow<"notification_messages">;
 export type EnrollmentFormRecord = TableRow<"enrollment_forms">;
 export type EnrollmentSubmissionRecord = TableRow<"enrollment_submissions">;
+export type HolidayRecord = TableRow<"holidays">;
 export type TimetableEntryRecord = TableRow<"timetable_entries">;
 export type TestRecord = TableRow<"tests">;
 export type TestScoreRecord = TableRow<"test_scores">;
@@ -82,6 +83,10 @@ export type EnrollmentFormWithBranch = EnrollmentFormRecord & {
 };
 
 export type EnrollmentSubmissionWithBranch = EnrollmentSubmissionRecord & {
+  branches?: Pick<BranchRecord, "name"> | null;
+};
+
+export type HolidayWithBranch = HolidayRecord & {
   branches?: Pick<BranchRecord, "name"> | null;
 };
 
