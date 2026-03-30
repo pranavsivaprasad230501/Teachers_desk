@@ -2,6 +2,7 @@ import { createBatchAction } from "@/app/actions";
 import { AccessDenied } from "@/components/dashboard/access-denied";
 import { SubscriptionGate } from "@/components/dashboard/subscription-gate";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -28,6 +29,15 @@ export default async function BatchesPage() {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
       <div className="space-y-4">
+        <SectionHero
+          eyebrow="Batch Planning"
+          title="Add a more visual rhythm to scheduling and group setup."
+          description="Batches, subjects, and teaching windows now sit beneath a welcoming scene so this screen feels more crafted and less like raw data entry."
+          imageSrc="/operations-scene.svg"
+          imageAlt="Illustration of batch planning, schedule cards, and organized teaching groups"
+          tone="sky"
+        />
+
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Batches</h2>
           <p className="mt-1 text-muted-foreground">

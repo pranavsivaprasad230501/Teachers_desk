@@ -1,6 +1,7 @@
 import { markFeePaidAction, seedCurrentMonthFeesAction } from "@/app/actions";
 import { AccessDenied } from "@/components/dashboard/access-denied";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubscriptionGate } from "@/components/dashboard/subscription-gate";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,15 @@ export default async function FeesPage({ searchParams }: FeesPageProps) {
 
   return (
     <div className="space-y-6">
+      <SectionHero
+        eyebrow="Collection Desk"
+        title="Give fee tracking a clearer, more trustworthy presentation."
+        description="Monthly collections, pending balances, and overdue follow-up now sit beneath a richer visual header that makes the ledger feel less mechanical."
+        imageSrc="/fees-scene.svg"
+        imageAlt="Illustration of fee collection cards, payment indicators, and monthly tracking"
+        tone="amber"
+      />
+
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Fees</h2>

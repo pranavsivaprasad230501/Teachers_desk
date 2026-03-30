@@ -69,7 +69,10 @@ Recommended schedule:
 - Configure:
   - `WHATSAPP_WEBHOOK_URL`
   - `WHATSAPP_WEBHOOK_TOKEN`
+  - `RESEND_API_KEY`
+  - `EMAIL_FROM_ADDRESS`
 - The dispatcher will POST queued messages to that webhook in a provider-agnostic JSON shape.
+- Email notifications are sent through Resend when `RESEND_API_KEY` and `EMAIL_FROM_ADDRESS` are set.
 
 ### Development Notes
 

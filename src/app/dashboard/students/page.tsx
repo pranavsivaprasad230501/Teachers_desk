@@ -9,6 +9,7 @@ import {
 } from "@/app/actions";
 import { AccessDenied } from "@/components/dashboard/access-denied";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubscriptionGate } from "@/components/dashboard/subscription-gate";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -52,6 +53,15 @@ export default async function StudentsPage() {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.4fr_1fr]">
       <div className="space-y-6">
+        <SectionHero
+          eyebrow="Student Records"
+          title="Make student profiles feel clear, complete, and easy to act on."
+          description="Surface guardians, branch placement, fee defaults, and enrollment activity in a friendlier visual layout so admins can scan faster."
+          imageSrc="/students-scene.svg"
+          imageAlt="Illustration of student profiles and enrollment records arranged in a modern dashboard"
+          tone="sky"
+        />
+
         <Card>
           <CardHeader>
             <CardTitle>Students</CardTitle>
@@ -173,6 +183,16 @@ export default async function StudentsPage() {
       </div>
 
       <div className="space-y-6">
+        <SectionHero
+          eyebrow="Admissions"
+          title="Create new student entries with a little more warmth."
+          description="The forms stay practical, but the surrounding visuals now make this part of the workflow feel less dry and more inviting."
+          imageSrc="/students-scene.svg"
+          imageAlt="Illustration of admissions and student onboarding cards"
+          tone="amber"
+          className="xl:hidden"
+        />
+
         <Card>
           <CardHeader>
             <CardTitle>Add student</CardTitle>

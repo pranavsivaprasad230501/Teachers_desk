@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -103,7 +104,7 @@ export default function Home() {
             </div>
             <div>
               <p className="text-xl font-extrabold tracking-tight text-slate-900">Centre+</p>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Coaching ERP</p>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Coaching Operations</p>
             </div>
           </div>
 
@@ -136,7 +137,7 @@ export default function Home() {
       <section className="landing-hero relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(58,143,224,0.18),transparent_34%),radial-gradient(circle_at_right,rgba(244,124,32,0.16),transparent_28%)]" />
         <div className="mx-auto grid max-w-7xl gap-14 px-4 py-14 sm:px-6 lg:grid-cols-[minmax(0,1.1fr)_420px] lg:px-8 lg:py-20">
-          <div className="relative z-10 max-w-3xl">
+          <div className="relative z-10 max-w-3xl animate-soft-rise">
             <div className="inline-flex items-center gap-2 rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-700">
               <BadgeCheck className="h-4 w-4" />
               Tuition class management software
@@ -213,8 +214,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative z-10">
-            <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_28px_60px_rgba(15,23,42,0.08)] sm:p-7">
+          <div className="relative z-10 animate-soft-rise-delay">
+            <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-sky-200/50 blur-2xl animate-soft-float" />
+            <div className="absolute -bottom-6 -right-4 h-24 w-24 rounded-full bg-orange-200/60 blur-2xl animate-soft-float-delayed" />
+            <div className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_28px_60px_rgba(15,23,42,0.08)] sm:p-7">
+              <div className="relative mb-6 overflow-hidden rounded-[1.6rem] border border-slate-100 bg-[linear-gradient(135deg,#eef7ff,#fff6ea)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(11,102,195,0.12),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(244,124,32,0.12),transparent_30%)] animate-soft-pan" />
+                <Image
+                  src="/landing-classroom.svg"
+                  alt="Illustration of a tuition class dashboard with student, fee, and classroom activity cards"
+                  width={960}
+                  height={720}
+                  className="relative z-10 h-auto w-full animate-soft-float"
+                  priority
+                />
+              </div>
               <p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-500">Sign up for a free trial</p>
               <h2 className="mt-3 font-sans text-3xl font-extrabold tracking-tight text-slate-950">See how your tuition class can run smoother.</h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">

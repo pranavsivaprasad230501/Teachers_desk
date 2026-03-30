@@ -1,5 +1,6 @@
 import { saveAttendanceAction } from "@/app/actions";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubscriptionGate } from "@/components/dashboard/subscription-gate";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -41,6 +42,15 @@ export default async function AttendancePage({ searchParams }: AttendancePagePro
 
   return (
     <div className="space-y-6">
+      <SectionHero
+        eyebrow="Attendance Flow"
+        title="Turn daily attendance into a fast, confidence-building routine."
+        description="Teachers can choose a batch, mark presence, and move on, while the page feels more alive with a clear visual cue for completion."
+        imageSrc="/attendance-scene.svg"
+        imageAlt="Illustration of attendance tracking with checklist and batch controls"
+        tone="teal"
+      />
+
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Attendance</h2>
         <p className="mt-1 text-muted-foreground">

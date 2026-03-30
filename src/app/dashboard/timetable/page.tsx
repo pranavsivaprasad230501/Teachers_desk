@@ -1,5 +1,6 @@
 import { createHolidayAction, createTimetableEntryAction } from "@/app/actions";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,15 @@ export default async function TimetablePage() {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.3fr_0.9fr]">
       <div className="space-y-6">
+        <SectionHero
+          eyebrow="Schedules"
+          title="Make weekly planning and holiday management feel more intentional."
+          description="The timetable now opens with a visual operations card so schedule review feels structured before you dive into entries and holiday dates."
+          imageSrc="/operations-scene.svg"
+          imageAlt="Illustration of scheduling, holiday planning, and weekly timetable management"
+          tone="amber"
+        />
+
         <Card>
           <CardHeader>
             <CardTitle>Weekly timetable</CardTitle>

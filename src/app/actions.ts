@@ -866,7 +866,7 @@ export async function createBroadcastAction(formData: FormData) {
 
   let studentsQuery = supabase
     .from("students")
-    .select("id, branch_id, batch_id, parent_phone")
+    .select("id, branch_id, batch_id, parent_phone, parent_email")
     .eq("centre_id", appContext.centre.id)
     .eq("status", "active");
 
@@ -879,6 +879,8 @@ export async function createBroadcastAction(formData: FormData) {
 
   const { data: students } = await studentsQuery;
   for (const student of students ?? []) {
+    const messageBody = buildBroadcastMessage(title, message, appContext.centre.name);
+
     await queueNotification({
       centreId: appContext.centre.id,
       branchId: student.branch_id,
@@ -886,8 +888,24 @@ export async function createBroadcastAction(formData: FormData) {
       batchId: student.batch_id,
       category: "broadcast",
       recipientPhone: student.parent_phone,
-      messageBody: buildBroadcastMessage(title, message, appContext.centre.name),
+      messageBody,
     });
+
+    if (student.parent_email) {
+      await queueNotification({
+        centreId: appContext.centre.id,
+        branchId: student.branch_id,
+        studentId: student.id,
+        batchId: student.batch_id,
+        category: "broadcast",
+        channel: "email",
+        recipientEmail: student.parent_email,
+        messageBody,
+        payload: {
+          subject: `${appContext.centre.name}: ${title}`,
+        },
+      });
+    }
   }
 
   revalidatePath("/dashboard/messages");

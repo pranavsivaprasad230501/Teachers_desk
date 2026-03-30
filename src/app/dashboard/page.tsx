@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubscriptionGate } from "@/components/dashboard/subscription-gate";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { requireUser } from "@/lib/auth";
@@ -37,6 +38,14 @@ export default async function DashboardPage({
 
   return (
     <div className="space-y-6">
+      <SectionHero
+        eyebrow="Centre Overview"
+        title="Keep the whole centre in view from one polished workspace."
+        description="Track learners, collections, batches, and risk signals at a glance, with a more visual dashboard that feels welcoming the moment you log in."
+        imageSrc="/dashboard-overview.svg"
+        imageAlt="Illustrated overview dashboard with cards for performance, students, and collection activity"
+      />
+
       <div>
         <h2 className="text-3xl font-bold tracking-tight">Overview</h2>
         <p className="mt-1 text-muted-foreground">
@@ -111,7 +120,7 @@ export default async function DashboardPage({
 
 function StatCard({ label, value }: { label: string; value: string }) {
   return (
-    <Card>
+    <Card className="border-white/70 bg-white/85 backdrop-blur">
       <CardHeader>
         <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
       </CardHeader>

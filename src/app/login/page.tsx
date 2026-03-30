@@ -1,8 +1,9 @@
 'use client';
 
+import Image from 'next/image';
 import { useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowRight, BookOpen, KeyRound, ShieldCheck, Sparkles, UserPlus } from 'lucide-react';
+import { ArrowRight, BookOpen, KeyRound, Sparkles, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
@@ -114,8 +115,10 @@ export default function LoginPage() {
       <div className="mx-auto grid min-h-[calc(100vh-2.5rem)] max-w-7xl overflow-hidden rounded-[2rem] border border-white/50 bg-white/55 shadow-[0_30px_90px_rgba(115,65,27,0.12)] backdrop-blur-xl lg:grid-cols-[1.08fr_0.92fr]">
         <section className="rangoli-pattern relative overflow-hidden bg-[linear-gradient(160deg,#7c2d12_0%,#b45309_35%,#0f766e_100%)] px-6 py-8 text-white sm:px-8 sm:py-10 lg:px-10 lg:py-12">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_26%),radial-gradient(circle_at_bottom_left,rgba(253,224,71,0.14),transparent_28%)]" />
+          <div className="absolute right-0 top-0 h-44 w-44 rounded-full bg-white/10 blur-3xl animate-soft-float" />
+          <div className="absolute bottom-10 left-10 h-32 w-32 rounded-full bg-amber-200/10 blur-3xl animate-soft-float-delayed" />
 
-          <div className="relative flex h-full flex-col">
+          <div className="relative flex h-full flex-col animate-soft-rise">
             <div className="flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/12 shadow-lg backdrop-blur">
                 <BookOpen className="h-6 w-6 text-white" />
@@ -131,7 +134,7 @@ export default function LoginPage() {
             <div className="mt-10 max-w-xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-orange-50/90 backdrop-blur">
                 <Sparkles className="h-4 w-4 text-amber-200" />
-                Modern Indian design for coaching institutes that want to look premium
+                Built for coaching institutes that want smoother daily operations
               </div>
 
               <h1 className="mt-6 text-5xl leading-[0.92] sm:text-6xl">
@@ -151,18 +154,16 @@ export default function LoginPage() {
               ))}
             </div>
 
-            <div className="mt-8 rounded-[1.75rem] border border-white/15 bg-white/10 p-5 backdrop-blur">
-              <div className="flex items-start gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10">
-                  <ShieldCheck className="h-5 w-5 text-amber-100" />
-                </div>
-                <div>
-                  <p className="text-lg font-semibold text-white">Professional look, practical workflow</p>
-                  <p className="mt-2 text-sm leading-7 text-orange-50/80">
-                    This refresh is designed to feel familiar to Indian users while still reading as modern software instead of a generic admin panel.
-                  </p>
-                </div>
-              </div>
+            <div className="relative mt-8 overflow-hidden rounded-[1.8rem] border border-white/15 bg-white/8 p-3 backdrop-blur">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.14),transparent_42%)] animate-soft-pan" />
+              <Image
+                src="/login-campus.svg"
+                alt="Illustration of a welcoming academic campus dashboard with a secure bag and schedule motif"
+                width={900}
+                height={900}
+                className="relative z-10 h-auto w-full animate-soft-float"
+                priority
+              />
             </div>
           </div>
         </section>

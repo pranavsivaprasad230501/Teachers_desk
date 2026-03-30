@@ -1,5 +1,6 @@
 import { createTestAction, saveTestScoresAction } from "@/app/actions";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -36,6 +37,15 @@ export default async function TestsPage({ searchParams }: TestsPageProps) {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.25fr_0.95fr]">
       <div className="space-y-6">
+        <SectionHero
+          eyebrow="Assessments"
+          title="Give test setup and scoring a more energetic presentation."
+          description="The tests area now opens with a visual scene that complements score entry and makes performance tracking feel more polished."
+          imageSrc="/students-scene.svg"
+          imageAlt="Illustration of academic tests, scoring cards, and student performance records"
+          tone="teal"
+        />
+
         <Card>
           <CardHeader>
             <CardTitle>Tests</CardTitle>

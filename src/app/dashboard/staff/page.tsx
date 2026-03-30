@@ -1,6 +1,7 @@
 import { assignTeacherToBatchAction, inviteStaffAction } from "@/app/actions";
 import { AccessDenied } from "@/components/dashboard/access-denied";
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
+import { SectionHero } from "@/components/dashboard/section-hero";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -34,6 +35,15 @@ export default async function StaffPage() {
   return (
     <div className="grid gap-6 xl:grid-cols-[1.3fr_0.9fr]">
       <div className="space-y-6">
+        <SectionHero
+          eyebrow="Team Management"
+          title="Make your staff area feel more human and collaborative."
+          description="Invites, teaching assignments, and current roles now sit alongside stronger visuals so the people side of the product feels less sterile."
+          imageSrc="/team-scene.svg"
+          imageAlt="Illustration of a teaching team with invites and assignment panels"
+          tone="teal"
+        />
+
         <Card>
           <CardHeader>
             <CardTitle>Staff members</CardTitle>
