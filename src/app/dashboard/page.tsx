@@ -1,5 +1,19 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import {
+  AlertTriangle,
+  ArrowRight,
+  Bell,
+  BookOpen,
+  Building2,
+  Calendar,
+  CalendarCheck,
+  CreditCard,
+  GraduationCap,
+  TrendingUp,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 
 import { CreateCentreForm } from "@/components/dashboard/create-centre-form";
 import { SectionHero } from "@/components/dashboard/section-hero";
@@ -47,20 +61,20 @@ export default async function DashboardPage({
       />
 
       <div>
-        <h2 className="text-3xl font-bold tracking-tight">Overview</h2>
+        <h2 className="text-3xl font-bold tracking-tight">{centre.name}</h2>
         <p className="mt-1 text-muted-foreground">
-          {centre.name} · Trial ends {formatDate(appContext.subscription?.trial_ends_at)}
+          Trial ends {formatDate(appContext.subscription?.trial_ends_at)} · {appContext.role}
         </p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Total Students" value={String(stats.totalStudents)} />
-        <StatCard label="Active Batches" value={String(stats.totalBatches)} />
-        <StatCard label="Collected" value={formatCurrency(stats.collectedAmount)} />
-        <StatCard label="Pending" value={formatCurrency(stats.pendingAmount)} />
-        <StatCard label="Attendance Rate" value={`${stats.attendanceRate}%`} />
-        <StatCard label="Unpaid Fees" value={String(stats.overdueFees)} />
-        <StatCard label="Open Alerts" value={String(stats.openAlerts)} />
+        <StatCard label="Total Students" value={String(stats.totalStudents)} icon={Users} iconBg="bg-sky-100" iconColor="text-sky-600" />
+        <StatCard label="Active Batches" value={String(stats.totalBatches)} icon={BookOpen} iconBg="bg-violet-100" iconColor="text-violet-600" />
+        <StatCard label="Collected" value={formatCurrency(stats.collectedAmount)} icon={TrendingUp} iconBg="bg-emerald-100" iconColor="text-emerald-600" />
+        <StatCard label="Pending" value={formatCurrency(stats.pendingAmount)} icon={CreditCard} iconBg="bg-amber-100" iconColor="text-amber-600" />
+        <StatCard label="Attendance Rate" value={`${stats.attendanceRate}%`} icon={CalendarCheck} iconBg="bg-teal-100" iconColor="text-teal-600" />
+        <StatCard label="Unpaid Fees" value={String(stats.overdueFees)} icon={AlertTriangle} iconBg="bg-rose-100" iconColor="text-rose-600" />
+        <StatCard label="Open Alerts" value={String(stats.openAlerts)} icon={Bell} iconBg="bg-orange-100" iconColor="text-orange-600" />
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
@@ -69,18 +83,9 @@ export default async function DashboardPage({
             <CardTitle>Centre Snapshot</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 text-sm">
-            <div className="rounded-lg border p-3">
-              <p className="font-medium text-slate-900">Current Branch</p>
-              <p className="text-muted-foreground">{appContext.branch?.name ?? "Not assigned"}</p>
-            </div>
-            <div className="rounded-lg border p-3">
-              <p className="font-medium text-slate-900">Role</p>
-              <p className="text-muted-foreground capitalize">{appContext.role}</p>
-            </div>
-            <div className="rounded-lg border p-3">
-              <p className="font-medium text-slate-900">Subscription</p>
-              <p className="text-muted-foreground capitalize">{appContext.subscription?.status ?? "setup required"}</p>
-            </div>
+            <SnapshotRow label="Current Branch" value={appContext.branch?.name ?? "Not assigned"} />
+            <SnapshotRow label="Role" value={appContext.role ?? "unknown"} capitalize />
+            <SnapshotRow label="Subscription" value={appContext.subscription?.status ?? "setup required"} capitalize />
           </CardContent>
         </Card>
 
@@ -89,26 +94,14 @@ export default async function DashboardPage({
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-2">
-            <Link className="rounded-lg border p-3 text-sm font-medium hover:bg-muted/40" href="/dashboard/attendance">
-              Mark attendance
-            </Link>
-            <Link className="rounded-lg border p-3 text-sm font-medium hover:bg-muted/40" href="/dashboard/timetable">
-              Open timetable
-            </Link>
-            <Link className="rounded-lg border p-3 text-sm font-medium hover:bg-muted/40" href="/dashboard/tests">
-              Enter marks
-            </Link>
+            <QuickAction href="/dashboard/attendance" icon={CalendarCheck} label="Mark attendance" />
+            <QuickAction href="/dashboard/timetable" icon={Calendar} label="Open timetable" />
+            <QuickAction href="/dashboard/tests" icon={GraduationCap} label="Enter marks" />
             {appContext.role !== "teacher" ? (
               <>
-                <Link className="rounded-lg border p-3 text-sm font-medium hover:bg-muted/40" href="/dashboard/fees">
-                  Record fee payment
-                </Link>
-                <Link className="rounded-lg border p-3 text-sm font-medium hover:bg-muted/40" href="/dashboard/messages">
-                  Send broadcast
-                </Link>
-                <Link className="rounded-lg border p-3 text-sm font-medium hover:bg-muted/40" href="/dashboard/branches">
-                  Manage branches
-                </Link>
+                <QuickAction href="/dashboard/fees" icon={CreditCard} label="Record fee payment" />
+                <QuickAction href="/dashboard/messages" icon={Bell} label="Send broadcast" />
+                <QuickAction href="/dashboard/branches" icon={Building2} label="Manage branches" />
               </>
             ) : null}
           </CardContent>
@@ -118,15 +111,56 @@ export default async function DashboardPage({
   );
 }
 
-function StatCard({ label, value }: { label: string; value: string }) {
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+  iconBg,
+  iconColor,
+}: {
+  label: string;
+  value: string;
+  icon: LucideIcon;
+  iconBg: string;
+  iconColor: string;
+}) {
   return (
-    <Card className="border-white/70 bg-white/85 backdrop-blur">
-      <CardHeader>
-        <CardTitle className="text-sm font-medium text-muted-foreground">{label}</CardTitle>
+    <Card className="relative overflow-hidden border-white/70 bg-white/85 backdrop-blur transition hover:-translate-y-0.5 hover:shadow-md">
+      <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2 pt-5">
+        <CardTitle className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          {label}
+        </CardTitle>
+        <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl ${iconBg}`}>
+          <Icon className={`h-4 w-4 ${iconColor}`} />
+        </div>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-semibold text-slate-900">{value}</div>
+        <div className="text-3xl font-bold tracking-tight text-slate-900">{value}</div>
       </CardContent>
     </Card>
+  );
+}
+
+function SnapshotRow({ label, value, capitalize }: { label: string; value: string; capitalize?: boolean }) {
+  return (
+    <div className="flex items-center justify-between rounded-lg border p-3">
+      <p className="font-medium text-slate-900">{label}</p>
+      <p className={`text-muted-foreground ${capitalize ? "capitalize" : ""}`}>{value}</p>
+    </div>
+  );
+}
+
+function QuickAction({ href, icon: Icon, label }: { href: string; icon: LucideIcon; label: string }) {
+  return (
+    <Link
+      className="flex items-center justify-between rounded-lg border bg-white/60 p-3 text-sm font-medium transition hover:border-slate-300 hover:bg-muted/40"
+      href={href}
+    >
+      <div className="flex items-center gap-2.5">
+        <Icon className="h-4 w-4 text-slate-500" />
+        {label}
+      </div>
+      <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
+    </Link>
   );
 }

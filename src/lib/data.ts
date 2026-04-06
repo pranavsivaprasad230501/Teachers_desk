@@ -276,7 +276,14 @@ export async function getSubscriptionForCentre(centreId: string) {
 
 export async function hasPaidAccess(centreId: string) {
   const subscription = await getSubscriptionForCentre(centreId);
-  return ACTIVE_SUBSCRIPTION_STATUSES.includes(subscription.status);
+  if (!ACTIVE_SUBSCRIPTION_STATUSES.includes(subscription.status)) {
+    return false;
+  }
+  // Trial must not have expired — active paid subscriptions have no trial_ends_at limitation
+  if (subscription.status === "trialing" && subscription.trial_ends_at) {
+    return new Date(subscription.trial_ends_at) > new Date();
+  }
+  return true;
 }
 
 export async function getAppContextForUser(args: {

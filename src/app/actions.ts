@@ -849,6 +849,7 @@ export async function createBroadcastAction(formData: FormData) {
   const message = z.string().min(2).parse(formData.get("message"));
   const batchId = z.string().uuid().optional().or(z.literal("")).parse(formData.get("batch_id"));
   const branchId = z.string().uuid().optional().or(z.literal("")).parse(formData.get("branch_id"));
+  const channel = z.enum(["whatsapp", "email", "both"]).default("both").parse(formData.get("channel") ?? "both");
 
   const supabase = await createServerSupabaseClient();
   const { error } = await supabase.from("broadcast_messages").insert({
@@ -881,17 +882,20 @@ export async function createBroadcastAction(formData: FormData) {
   for (const student of students ?? []) {
     const messageBody = buildBroadcastMessage(title, message, appContext.centre.name);
 
-    await queueNotification({
-      centreId: appContext.centre.id,
-      branchId: student.branch_id,
-      studentId: student.id,
-      batchId: student.batch_id,
-      category: "broadcast",
-      recipientPhone: student.parent_phone,
-      messageBody,
-    });
+    if ((channel === "whatsapp" || channel === "both") && student.parent_phone) {
+      await queueNotification({
+        centreId: appContext.centre.id,
+        branchId: student.branch_id,
+        studentId: student.id,
+        batchId: student.batch_id,
+        category: "broadcast",
+        channel: "whatsapp",
+        recipientPhone: student.parent_phone,
+        messageBody,
+      });
+    }
 
-    if (student.parent_email) {
+    if ((channel === "email" || channel === "both") && student.parent_email) {
       await queueNotification({
         centreId: appContext.centre.id,
         branchId: student.branch_id,

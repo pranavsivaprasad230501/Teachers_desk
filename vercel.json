@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/jobs/risk-alerts",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/jobs/notifications",
+      "schedule": "*/15 * * * *"
+    }
+  ]
+}

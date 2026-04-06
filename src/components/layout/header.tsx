@@ -19,34 +19,38 @@ export function Header({
   roleLabel,
   branchLabel,
 }: HeaderProps) {
+  const initials = userLabel
+    .split(" ")
+    .map((chunk) => chunk[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
-    <div className="flex items-center justify-between border-b border-white/70 bg-white/75 px-4 py-3 shadow-sm backdrop-blur">
+    <div className="flex items-center justify-between border-b border-white/70 bg-white/80 px-4 py-3 shadow-sm backdrop-blur">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[linear-gradient(135deg,#0b66c3,#0f766e)] text-sm font-semibold text-white shadow-[0_10px_20px_rgba(11,102,195,0.22)]">
-          C+
-        </div>
         <div>
-          <p className="text-sm font-medium text-slate-900">{centreName}</p>
+          <p className="text-sm font-semibold text-slate-900">{centreName}</p>
           <p className="text-xs text-muted-foreground">
-            {[roleLabel, branchLabel, subscriptionLabel].filter(Boolean).join(" · ")}
+            {[roleLabel, branchLabel].filter(Boolean).join(" · ")}
           </p>
         </div>
+        {subscriptionLabel && (
+          <span className="hidden rounded-full bg-sky-50 px-2.5 py-0.5 text-xs font-semibold capitalize text-sky-700 ring-1 ring-sky-200 sm:inline-flex">
+            {subscriptionLabel}
+          </span>
+        )}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
         <Link href="/dashboard/settings">
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" className="hidden sm:flex">
             Billing
           </Button>
         </Link>
         <Avatar className="h-8 w-8">
-          <AvatarFallback className="bg-sky-600 text-xs font-medium text-white">
-            {userLabel
-              .split(" ")
-              .map((chunk) => chunk[0])
-              .join("")
-              .slice(0, 2)
-              .toUpperCase()}
+          <AvatarFallback className="bg-gradient-to-br from-sky-500 to-teal-500 text-xs font-semibold text-white">
+            {initials}
           </AvatarFallback>
         </Avatar>
         <form action={signOutAction}>
