@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { GraduationCap } from "lucide-react";
 
 import { signOutAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 type HeaderProps = {
   centreName?: string;
@@ -13,19 +13,11 @@ type HeaderProps = {
 };
 
 export function Header({
-  centreName = "Centre+",
-  userLabel = "Owner",
+  centreName = "Teacher's Desk",
   subscriptionLabel = "Trial",
   roleLabel,
   branchLabel,
 }: HeaderProps) {
-  const initials = userLabel
-    .split(" ")
-    .map((chunk) => chunk[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
   return (
     <div className="flex items-center justify-between border-b border-white/70 bg-white/80 px-4 py-3 shadow-sm backdrop-blur">
       <div className="flex items-center gap-3">
@@ -48,11 +40,9 @@ export function Header({
             Billing
           </Button>
         </Link>
-        <Avatar className="h-8 w-8">
-          <AvatarFallback className="bg-gradient-to-br from-sky-500 to-teal-500 text-xs font-semibold text-white">
-            {initials}
-          </AvatarFallback>
-        </Avatar>
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0f766e,#0284c7)] text-white shadow-[0_8px_20px_rgba(14,116,144,0.28)] ring-2 ring-white/80">
+          <GraduationCap className="h-4.5 w-4.5" />
+        </div>
         <form action={signOutAction}>
           <Button type="submit" variant="ghost" size="sm">
             Sign out

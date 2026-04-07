@@ -35,6 +35,10 @@ export function getPriceIdForPlan(planKey: PlanKey) {
   return requireServerEnv(PLAN_DETAILS[planKey].priceEnvKey);
 }
 
+export function isPlanConfigured(planKey: PlanKey) {
+  return Boolean(process.env[PLAN_DETAILS[planKey].priceEnvKey]);
+}
+
 export function getPlanFromPriceId(priceId: string | null | undefined): PlanKey | null {
   if (!priceId) {
     return null;
@@ -43,6 +47,9 @@ export function getPlanFromPriceId(priceId: string | null | undefined): PlanKey 
   const entries = Object.entries(PLAN_DETAILS) as Array<
     [PlanKey, (typeof PLAN_DETAILS)[PlanKey]]
   >;
-  const match = entries.find(([, plan]) => requireServerEnv(plan.priceEnvKey) === priceId);
+  const match = entries.find(([, plan]) => {
+    const configuredPriceId = process.env[plan.priceEnvKey];
+    return configuredPriceId ? configuredPriceId === priceId : false;
+  });
   return match?.[0] ?? null;
 }

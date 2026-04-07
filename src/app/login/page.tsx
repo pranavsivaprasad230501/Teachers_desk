@@ -3,9 +3,10 @@
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowRight, BookOpen, KeyRound, Sparkles, UserPlus } from 'lucide-react';
+import { ArrowRight, KeyRound, Sparkles, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { TeachersDeskLogo } from '@/components/branding/teachers-desk-logo';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -14,7 +15,7 @@ import { getUsernameValidationMessage, normalizeLoginIdentifier, normalizeUserna
 import { createBrowserSupabaseClient } from '@/lib/supabase/browser';
 
 const sellingPoints = [
-  'Made for tuition centres, coaching institutes, and academy owners',
+  'Made for tuition teams, institutes, and academy owners',
   'Warm premium styling with faster daily workflows for staff',
   'Username + password login, no more magic link dependency',
 ];
@@ -119,22 +120,18 @@ export default function LoginPage() {
           <div className="absolute bottom-10 left-10 h-32 w-32 rounded-full bg-amber-200/10 blur-3xl animate-soft-float-delayed" />
 
           <div className="relative flex h-full flex-col animate-soft-rise">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/12 shadow-lg backdrop-blur">
-                <BookOpen className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <p className="font-heading text-4xl leading-none">
-                  Centre<span className="text-amber-200">+</span>
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-[0.35em] text-orange-100/80">Academic Operations</p>
-              </div>
-            </div>
+            <TeachersDeskLogo
+              markClassName="h-12 w-12 rounded-2xl bg-white/12 shadow-lg backdrop-blur"
+              iconClassName="h-6 w-6 text-white"
+              wordmarkClassName="font-heading text-4xl leading-none text-white"
+              taglineClassName="mt-1 text-xs tracking-[0.35em] text-orange-100/80"
+              tagline="Academic Operations"
+            />
 
             <div className="mt-10 max-w-xl">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-orange-50/90 backdrop-blur">
                 <Sparkles className="h-4 w-4 text-amber-200" />
-                Built for coaching institutes that want smoother daily operations
+                Built for tuition teams that want smoother daily operations
               </div>
 
               <h1 className="mt-6 text-5xl leading-[0.92] sm:text-6xl">
@@ -142,7 +139,7 @@ export default function LoginPage() {
               </h1>
 
               <p className="mt-5 max-w-lg text-base leading-8 text-orange-50/85 sm:text-lg">
-                Attendance, fees, parent updates, and centre growth in one place, wrapped in a visual style inspired by sandstone, saffron, and polished Indian hospitality.
+                Attendance, fees, parent updates, and institute growth in one place, wrapped in a visual style inspired by sandstone, saffron, and polished Indian hospitality.
               </p>
             </div>
 

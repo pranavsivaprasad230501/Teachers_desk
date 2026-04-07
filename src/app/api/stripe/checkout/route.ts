@@ -1,3 +1,4 @@
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
@@ -23,10 +24,15 @@ export async function POST(request: Request) {
 
     redirect(url);
   } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     if (error instanceof z.ZodError) {
       redirect("/dashboard/settings?error=invalid_plan");
     }
 
+    console.error("Stripe checkout failed", error);
     redirect("/dashboard/settings?error=checkout_failed");
   }
 }

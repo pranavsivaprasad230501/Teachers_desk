@@ -20,8 +20,8 @@ const cormorant = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Centre+",
-  description: "Tuition centre operations, parent portal, and subscription billing.",
+  title: "Teacher's Desk",
+  description: "Tuition operations, parent portal, and subscription billing for academic teams.",
 };
 
 export default function RootLayout({

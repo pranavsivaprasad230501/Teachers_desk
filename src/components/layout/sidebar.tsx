@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { TeachersDeskLogo } from '@/components/branding/teachers-desk-logo';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
@@ -49,12 +50,12 @@ export const Sidebar = ({ role = 'owner' }: { role?: StaffRole | null }) => {
     <div className="flex h-full flex-col border-r border-white/5 bg-[linear-gradient(180deg,#0d1526_0%,#111827_50%,#0d1526_100%)] text-white">
       <div className="px-3 pb-4 pt-5">
         <Link href="/dashboard" className="mb-8 flex items-center gap-3 px-3">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500 shadow-[0_6px_18px_rgba(14,165,233,0.4)]">
-            <BookOpen className="h-4 w-4 text-white" />
-          </div>
-          <h1 className="text-xl font-bold tracking-tight">
-            Centre<span className="text-sky-400">+</span>
-          </h1>
+          <TeachersDeskLogo
+            compact
+            markClassName="h-9 w-9 rounded-xl bg-sky-500 shadow-[0_6px_18px_rgba(14,165,233,0.4)]"
+            iconClassName="h-4 w-4 text-white"
+            wordmarkClassName="text-xl font-bold tracking-tight text-white"
+          />
         </Link>
         <nav className="space-y-0.5">
           {routes.map((route) => {

@@ -1,3 +1,4 @@
+import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { redirect } from "next/navigation";
 
 import { requireUser } from "@/lib/auth";
@@ -15,7 +16,12 @@ export async function POST() {
     });
 
     redirect(url);
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
+    console.error("Stripe billing portal failed", error);
     redirect("/dashboard/settings?error=portal_failed");
   }
 }

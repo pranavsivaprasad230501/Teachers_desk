@@ -1,6 +1,6 @@
 import { ArrowRight, CheckCircle2, CreditCard, Mail, MessageSquare, XCircle } from "lucide-react";
 
-import { PLAN_DETAILS } from "@/lib/plans";
+import { isPlanConfigured, PLAN_DETAILS } from "@/lib/plans";
 import { requireUser } from "@/lib/auth";
 import { getAppContextForUser } from "@/lib/data";
 import { serverEnv } from "@/lib/env";
@@ -58,7 +58,12 @@ export default async function SettingsPage({
   const isTrialing = subscription.status === "trialing";
   const isActive = subscription.status === "active";
 
-  const stripeConfigured = Boolean(serverEnv.STRIPE_SECRET_KEY);
+  const monthlyPlanConfigured = isPlanConfigured("starter_monthly");
+  const yearlyPlanConfigured = isPlanConfigured("starter_yearly");
+  const hasAnyStripePlan = monthlyPlanConfigured || yearlyPlanConfigured;
+  const stripeConfigured = Boolean(
+    serverEnv.STRIPE_SECRET_KEY && serverEnv.STRIPE_WEBHOOK_SECRET && hasAnyStripePlan
+  );
   const emailConfigured = Boolean(serverEnv.RESEND_API_KEY && serverEnv.EMAIL_FROM_ADDRESS);
   const whatsappConfigured = Boolean(serverEnv.WHATSAPP_WEBHOOK_URL && serverEnv.WHATSAPP_WEBHOOK_TOKEN);
 
@@ -127,24 +132,28 @@ export default async function SettingsPage({
             <div className="flex flex-wrap gap-3">
               {!isActive && (
                 <>
-                  <form action="/api/stripe/checkout" method="post">
-                    <input type="hidden" name="plan_key" value="starter_monthly" />
-                    <SubmitButton
-                      type="submit"
-                      pendingLabel="Redirecting..."
-                      className="inline-flex items-center gap-2 rounded-full bg-[#f47c20] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(244,124,32,0.28)] hover:bg-[#e56b0c]"
-                    >
-                      <CreditCard className="h-4 w-4" />
-                      Subscribe Monthly
-                      <ArrowRight className="h-4 w-4" />
-                    </SubmitButton>
-                  </form>
-                  <form action="/api/stripe/checkout" method="post">
-                    <input type="hidden" name="plan_key" value="starter_yearly" />
-                    <SubmitButton type="submit" variant="outline" pendingLabel="Redirecting...">
-                      Subscribe Yearly (save 17%)
-                    </SubmitButton>
-                  </form>
+                  {monthlyPlanConfigured && (
+                    <form action="/api/stripe/checkout" method="post">
+                      <input type="hidden" name="plan_key" value="starter_monthly" />
+                      <SubmitButton
+                        type="submit"
+                        pendingLabel="Redirecting..."
+                        className="inline-flex items-center gap-2 rounded-full bg-[#f47c20] px-5 py-2.5 text-sm font-semibold text-white shadow-[0_12px_24px_rgba(244,124,32,0.28)] hover:bg-[#e56b0c]"
+                      >
+                        <CreditCard className="h-4 w-4" />
+                        Subscribe Monthly
+                        <ArrowRight className="h-4 w-4" />
+                      </SubmitButton>
+                    </form>
+                  )}
+                  {yearlyPlanConfigured && (
+                    <form action="/api/stripe/checkout" method="post">
+                      <input type="hidden" name="plan_key" value="starter_yearly" />
+                      <SubmitButton type="submit" variant="outline" pendingLabel="Redirecting...">
+                        Subscribe Yearly (save 17%)
+                      </SubmitButton>
+                    </form>
+                  )}
                 </>
               )}
               {(isActive || stripeConfigured) && (
@@ -158,7 +167,7 @@ export default async function SettingsPage({
 
             {!stripeConfigured && (
               <div className="rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800">
-                <strong>Stripe not configured.</strong> Add <code className="font-mono">STRIPE_SECRET_KEY</code>, <code className="font-mono">STRIPE_WEBHOOK_SECRET</code>, and both price IDs to your <code className="font-mono">.env.local</code> to enable paid subscriptions. Get your keys at{" "}
+                <strong>Stripe not fully configured.</strong> Add <code className="font-mono">STRIPE_SECRET_KEY</code>, <code className="font-mono">STRIPE_WEBHOOK_SECRET</code>, and at least one price ID to your <code className="font-mono">.env.local</code> to enable paid subscriptions. Get your keys at{" "}
                 <span className="font-semibold">dashboard.stripe.com → Developers → API Keys</span>.
               </div>
             )}
@@ -181,7 +190,9 @@ export default async function SettingsPage({
               ))}
             </div>
             <div className="mt-2 grid gap-3">
-              {Object.entries(PLAN_DETAILS).map(([key, plan]) => (
+              {Object.entries(PLAN_DETAILS)
+                .filter(([key]) => isPlanConfigured(key as keyof typeof PLAN_DETAILS))
+                .map(([key, plan]) => (
                 <div key={key} className="flex items-center justify-between rounded-xl border bg-slate-50 px-4 py-3 text-sm">
                   <span className="font-semibold text-slate-900">{plan.label}</span>
                   <span className="font-bold text-slate-700">{plan.amountLabel}</span>

@@ -10,7 +10,7 @@ export function CreateCentreForm() {
       <CardHeader>
         <CardTitle>Create your centre</CardTitle>
         <CardDescription>
-          Set up your coaching centre to unlock the dashboard and start your 14-day trial.
+          Set up your institute to unlock the dashboard and start your 14-day trial.
         </CardDescription>
       </CardHeader>
       <CardContent>

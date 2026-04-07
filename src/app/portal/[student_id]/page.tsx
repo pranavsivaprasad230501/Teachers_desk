@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { CalendarCheck, AlertCircle, Phone, BookOpen, Clock } from 'lucide-react';
+import { CalendarCheck, AlertCircle, Phone, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { TeachersDeskLogo } from '@/components/branding/teachers-desk-logo';
 import { getRecentAttendanceForPortal, getMonthKey, getTestScoresForStudent } from '@/lib/data';
 import { formatCurrency } from '@/lib/format';
 import { createAdminSupabaseClient } from '@/lib/supabase/admin';
@@ -65,9 +66,13 @@ export default async function ParentPortalPage({
         
         {/* Header */}
         <div className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-sky-600 rounded-xl flex items-center justify-center shadow-lg mb-4">
-            <BookOpen className="h-7 w-7 text-white" />
-          </div>
+          <TeachersDeskLogo
+            className="justify-center"
+            compact
+            markClassName="mx-auto h-12 w-12 rounded-xl bg-sky-600 shadow-lg"
+            iconClassName="h-7 w-7 text-white"
+            wordmarkClassName="hidden"
+          />
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">{student.centres?.name}</h1>
           <p className="text-muted-foreground">{student.name}&apos;s Academic Record</p>
         </div>
@@ -177,7 +182,7 @@ export default async function ParentPortalPage({
         </Button>
         
         <p className="text-center text-xs text-muted-foreground mt-8">
-          Powered securely by Centre+ for {student.centres?.name}
+          Powered securely by Teacher&apos;s Desk for {student.centres?.name}
         </p>
 
       </div>

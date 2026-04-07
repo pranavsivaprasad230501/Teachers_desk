@@ -15,6 +15,8 @@ import {
   Users,
 } from "lucide-react";
 
+import { TeachersDeskLogo } from "@/components/branding/teachers-desk-logo";
+
 const heroHighlights = [
   "Trusted by small, medium, and large tuition classes",
   "Admission, fees, communication, and attendance in one workspace",
@@ -98,22 +100,14 @@ export default function Home() {
     <main className="landing-page min-h-screen text-slate-900">
       <section className="border-b border-slate-200/80 bg-white">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[linear-gradient(135deg,#0b66c3,#0a89d8)] text-white shadow-[0_10px_24px_rgba(11,102,195,0.22)]">
-              <BookOpen className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-xl font-extrabold tracking-tight text-slate-900">Centre+</p>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">Coaching Operations</p>
-            </div>
-          </div>
+          <TeachersDeskLogo />
 
           <nav className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">
             <a href="#features" className="transition hover:text-sky-700">
               Features
             </a>
-            <a href="#why-centre-plus" className="transition hover:text-sky-700">
-              Why Centre+
+            <a href="#why-teachers-desk" className="transition hover:text-sky-700">
+              Why Teacher&apos;s Desk
             </a>
             <a href="#faqs" className="transition hover:text-sky-700">
               FAQs
@@ -295,7 +289,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="why-centre-plus" className="bg-white py-18 sm:py-20">
+      <section id="why-teachers-desk" className="bg-white py-18 sm:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl">
             <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-700">Best tuition class management software</p>
@@ -303,8 +297,8 @@ export default function Home() {
               A complete platform for admissions, academics, communication, and collection.
             </h2>
             <p className="mt-5 text-lg leading-8 text-slate-600">
-              Centre+ brings the same polished, benefit-led presentation as the reference site, but fits it directly into
-              your product with cleaner hierarchy and a more usable layout.
+              Teacher&apos;s Desk gives tuition teams one polished workspace for parent communication, classroom
+              coordination, and day-to-day operations with cleaner hierarchy and a more usable layout.
             </p>
           </div>
 
@@ -402,7 +396,14 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-10 rounded-[2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(13,94,183,0.24),rgba(15,23,42,0.92))] p-8 sm:p-10 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.24em] text-sky-200">Centre+ for tuition classes</p>
+              <div className="mb-4">
+                <TeachersDeskLogo
+                  markClassName="bg-white/12 shadow-none"
+                  wordmarkClassName="text-white"
+                  tagline="Built for Tuition Teams"
+                  taglineClassName="text-sky-200"
+                />
+              </div>
               <h2 className="mt-3 max-w-2xl font-sans text-3xl font-extrabold tracking-tight sm:text-5xl">
                 Present your tuition class like a modern brand and run it like a disciplined operation.
               </h2>
@@ -429,7 +430,7 @@ export default function Home() {
           </div>
 
           <div className="mt-10 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-slate-400 sm:flex-row sm:items-center sm:justify-between">
-            <p>Copyright © 2026 Centre+. All rights reserved.</p>
+            <p>Copyright © 2026 Teacher&apos;s Desk. All rights reserved.</p>
             <div className="flex flex-wrap items-center gap-6">
               <span className="inline-flex items-center gap-2">
                 <MessagesSquare className="h-4 w-4" />
